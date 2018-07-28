@@ -5,6 +5,10 @@
 #include "FusionEKF.h"
 #include "tools.h"
 
+#include "Dense"
+#include "measurement_package.h"
+#include "tracking.h"
+
 using namespace std;
 
 // for convenience
