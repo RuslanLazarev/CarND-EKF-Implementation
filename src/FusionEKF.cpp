@@ -74,6 +74,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.x_ << 1, 1, 1, 1;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
+      cout << "EKF : First measurement RADAR" << endl;
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
@@ -102,7 +103,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /**
       Initialize state.
       */
-     ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
+      cout << "EKF : First measurement LASER" << endl;
+      ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
     }
 
     // done initializing, no need to predict or update
@@ -136,13 +138,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
    //initial transition matrix F
   ekf_.F_ = MatrixXd(4, 4);
-  ekf_.F_ << 1, 0, 1, 0,
-			  0, 1, 0, 1,
+  ekf_.F_ << 1, 0, dt, 0,
+			  0, 1, 0, dt,
 			  0, 0, 1, 0,
 			  0, 0, 0, 1;
-	//Modify the F matrix so that the time is integrated
-	ekf_.F_(0, 2) = dt;
-	ekf_.F_(1, 3) = dt;
 
 	//set the process covariance matrix Q
 	ekf_.Q_ = MatrixXd(4, 4);
