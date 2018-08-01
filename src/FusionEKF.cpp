@@ -44,13 +44,6 @@ FusionEKF::FusionEKF() {
 			  0, 0, 1000, 0,
 			  0, 0, 0, 1000;
 
-   //initial transition matrix F
-  F_ = MatrixXd(4, 4);
-  F_ << 1, 0, 1, 0,
-			  0, 1, 0, 1,
-			  0, 0, 1, 0,
-			  0, 0, 0, 1;
-
  // x matrix
 
  //measurement matrix
@@ -58,8 +51,8 @@ FusionEKF::FusionEKF() {
 			        0, 1, 0, 0;
 
  //set the process and measurement noise components
-	noise_ax = 9;
-	noise_ay = 9;
+	double noise_ax = 9.0;
+	double noise_ay = 9.0;
 
 }
 
@@ -95,17 +88,19 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       double rho = measurement_pack.raw_measurements_[0];
       double phi = measurement_pack.raw_measurements_[1];
       double rho_dot = measurement_pack.raw_measurements_[2];
+      double px = rho * sin(phi);
+      double py = rho * cos(phi);
 
       if (px < 0.0001) {
         px = 0.0001;
       }
-      double px = rho * sin(phi);
+      
       if (py < 0.0001) {
         py = 0.0001;
       }
-      double py = rho * cos(phi);
-      double vx = rho_dot * sin(phi);
-      double vy = rho_dot * cos(phi);
+      
+      double vx = rho_dot * cos(phi);
+      double vy = rho_dot * sin(phi);
 
       ekf_.x_ << px,py,vx,vy;
 
@@ -143,6 +138,16 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	float dt_3 = dt_2 * dt;
 	float dt_4 = dt_3 * dt;
 
+  double noise_ax = 9.0;
+  double noise_ay = 9.0;
+
+
+   //initial transition matrix F
+  ekf_.F_ = MatrixXd(4, 4);
+  ekf_.F_ << 1, 0, 1, 0,
+			  0, 1, 0, 1,
+			  0, 0, 1, 0,
+			  0, 0, 0, 1;
 	//Modify the F matrix so that the time is integrated
 	ekf_.F_(0, 2) = dt;
 	ekf_.F_(1, 3) = dt;
