@@ -58,7 +58,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   double px = x_(0);
   double py = x_(1);
   double vx = x_(3);
-  double vx = x_(3);
+  double vy = x_(3);
 
   double rho = sqrt(px*px + py+py);
   double phi = atan2(py,px);
@@ -84,5 +84,5 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	x_ = x_ + (K * y);
 	long x_size = x_.size();
 	MatrixXd I = MatrixXd::Identity(x_size, x_size);
-	P_ = (I - K * Hj) * P_;
+	P_ = (I - K * H_) * P_;
 }
