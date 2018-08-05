@@ -83,16 +83,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       double phi = measurement_pack.raw_measurements_(1);
       double rho_dot = measurement_pack.raw_measurements_(2);
       double px = rho * sin(phi);
-      double py = rho * cos(phi);
-
-      if (px < 0.0001) {
-        px = 0.0001;
-      }
-      
-      if (py < 0.0001) {
-        py = 0.0001;
-      }
-      
+      double py = rho * cos(phi);      
       double vx = rho_dot * cos(phi);
       double vy = rho_dot * sin(phi);
 
