@@ -40,9 +40,9 @@ FusionEKF::FusionEKF() {
   //initial state covariance matrix P
 	ekf_.P_ = MatrixXd(4, 4);
 	ekf_.P_ << 1, 0, 0, 0,
-			  0, 1, 0, 0,
-			  0, 0, 1000, 0,
-			  0, 0, 0, 1000;
+			       0, 1, 0, 0,
+			       0, 0, 1000, 0,
+			       0, 0, 0, 1000;
 
  //measurement matrix
 	H_laser_ << 1, 0, 0, 0,
@@ -82,10 +82,17 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       double rho = measurement_pack.raw_measurements_(0);
       double phi = measurement_pack.raw_measurements_(1);
       double rho_dot = measurement_pack.raw_measurements_(2);
-      double px = rho * sin(phi);
-      double py = rho * cos(phi);      
+      double px = rho * cos(phi);
+      double py = rho * sin(phi);      
       double vx = rho_dot * cos(phi);
       double vy = rho_dot * sin(phi);
+
+      if ( fabs(px) < 0.0001 ) {
+        px = 0.0001;
+      }
+      if ( fabs(py) < 0.0001 ) {
+        py = 0.0001;
+      }
 
       ekf_.x_ << px,py,vx,vy;
 
