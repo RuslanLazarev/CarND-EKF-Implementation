@@ -13,7 +13,6 @@ using std::vector;
  */
 FusionEKF::FusionEKF() {
   is_initialized_ = false;
-
   previous_timestamp_ = 0;
 
   // initializing matrices
@@ -47,6 +46,11 @@ FusionEKF::FusionEKF() {
  //measurement matrix
 	H_laser_ << 1, 0, 0, 0,
 			        0, 1, 0, 0;
+  
+  Hj_ << 1, 1, 0, 0,
+         1, 1, 0, 0,
+         1, 1, 1, 1;
+  
 }
 
 /**
@@ -102,7 +106,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       Initialize state.
       */
       cout << "EKF : First measurement LASER" << endl;
-      ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
+      ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 1, 1;
     }
 
     // done initializing, no need to predict or update
