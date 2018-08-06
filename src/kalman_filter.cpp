@@ -74,15 +74,15 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   VectorXd h = VectorXd(3);
   h << rho, phi, rho_dot;
+  
   VectorXd y = z - h;
 	MatrixXd Ht = H_.transpose();
-	MatrixXd S = H_ * P_ * Ht + R_;
-	MatrixXd Si = S.inverse();
-	MatrixXd K = P_ * Ht * Si;
-
-  //new estimate
-	x_ = x_ + (K * y);
-	int x_size = x_.size();
-	MatrixXd I = MatrixXd::Identity(x_size, x_size);
-	P_ = (I - K * H_) * P_;
+  MatrixXd S = H_ * P_ * Ht + R_;
+  MatrixXd Si = S.inverse();
+  MatrixXd K =  P_ * Ht * Si;
+  // New state
+  x_ = x_ + (K * y);
+  int x_size = x_.size();
+  MatrixXd I = MatrixXd::Identity(x_size, x_size);
+  P_ = (I - K * H_) * P_;
 }
