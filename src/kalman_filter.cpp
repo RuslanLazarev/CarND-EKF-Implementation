@@ -69,7 +69,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
    if (fabs(rho) < 0.0001) {
     rho_dot = 0.0001;
   } else {
-    rho_dot = (px*vx + py+vy)/rho;
+    rho_dot = (px*vx + py*vy)/rho;
   }
 
 
