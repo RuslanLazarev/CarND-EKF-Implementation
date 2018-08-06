@@ -87,12 +87,12 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       double vx = rho_dot * cos(phi);
       double vy = rho_dot * sin(phi);
 
-      if ( fabs(px) < 0.0001 ) {
-        px = 0.0001;
-      }
-      if ( fabs(py) < 0.0001 ) {
-        py = 0.0001;
-      }
+      //if ( fabs(px) < 0.0001 ) {
+      //  px = 0.0001;
+      //}
+      //if ( fabs(py) < 0.0001 ) {
+      //  py = 0.0001;
+      //}
 
       ekf_.x_ << px,py,vx,vy;
 
