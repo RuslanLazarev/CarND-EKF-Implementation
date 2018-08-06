@@ -137,9 +137,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    //initial transition matrix F
   ekf_.F_ = MatrixXd(4, 4);
   ekf_.F_ << 1, 0, dt, 0,
-			  0, 1, 0, dt,
-			  0, 0, 1, 0,
-			  0, 0, 0, 1;
+			       0, 1, 0, dt,
+			       0, 0, 1, 0,
+			       0, 0, 0, 1;
 
 	//set the process covariance matrix Q
 	ekf_.Q_ = MatrixXd(4, 4);
